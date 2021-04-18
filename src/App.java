@@ -14,7 +14,7 @@ public class App {
         Graphics2D g = panel.getGraphics();
 
         // elementary(126, 50, panel, g);
-        cellular2D("345/2/4", 60, panel, g);
+        cellular2D("23/3/2", 60, panel, g);
 
     }
 
@@ -54,26 +54,19 @@ public class App {
         for (int u = 0; u < 500; u++) {
             for (int j = 0; j < RES; j++) {
                 for (int i = 0; i < cells.getCells().length; i++) {
-                    // if (cells.getCells()[j][i] == 1) {
-                    // g.setColor(new Color(255, 0, 0));
-                    // } else if (cells.getCells()[j][i] == 2) {
-                    // g.setColor(new Color(255, 63, 0));
-                    // } else if (cells.getCells()[j][i] == 3) {
-                    // g.setColor(new Color(255, 127, 0));
-                    // } else if (cells.getCells()[j][i] == 4) {
-                    // g.setColor(new Color(255, 191, 0));
-                    // } else if (cells.getCells()[j][i] == 5) {
-                    // g.setColor(new Color(255, 255, 0));
-                    // } else {
-                    // g.setColor(Color.black);
-                    // }
                     Color col = Color.black;
-                    for (int k = 1; k < (Integer.parseInt(rule.split("/")[2])); k++) {
-                        if (k == cells.getCells()[j][i]) {
-                            col = new Color(255, (k - 1) * (255 / (Integer.parseInt(rule.split("/")[2]) - 2)), 0);
+                    int numStages = Integer.parseInt(rule.split("/")[2]);
+                    if (numStages < 3) {
+                        if (cells.getCells()[j][i] == 1) {
+                            col = Color.red;
+                        }
+                    } else {
+                        for (int k = 1; k < numStages; k++) {
+                            if (k == cells.getCells()[j][i]) {
+                                col = new Color(255, (k - 1) * (255 / (numStages - 2)), 0);
+                            }
                         }
                     }
-
                     g.setColor(col);
 
                     g.fillRect(i * (WIDTH / RES), j * (HEIGHT / RES), WIDTH / RES, WIDTH / RES);
