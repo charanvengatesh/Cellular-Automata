@@ -26,8 +26,10 @@ public class Cellular2D {
     this.rule = rule;
   }
 
-
   public void step() throws Exception {
+
+
+
 
     iterations++;
 
@@ -48,7 +50,9 @@ public class Cellular2D {
           this.cells[i][j] = 1;
         } else if (state == 1 && check(aliveRule(), neighbors)) {
           this.cells[i][j] = state;
-        } else {
+        } else if (state >= 1 && state < stateRule() - 1) {
+          this.cells[i][j]++;
+        } else if (state == stateRule() - 1) {
           this.cells[i][j] = 0;
         }
       }
@@ -56,7 +60,7 @@ public class Cellular2D {
 
   }
 
-  public boolean check(int[] arr, int toCheckValue){
+  public boolean check(int[] arr, int toCheckValue) {
     for (int element : arr) {
       if (element == toCheckValue) {
         return true;
@@ -71,10 +75,13 @@ public class Cellular2D {
       for (int j = -1; j < 2; j++) {
         int col = (x + i + arr.length) % arr.length;
         int row = (y + j + arr[0].length) % arr[0].length;
-        sum += arr[col][row];
+        if (arr[col][row] == 1)
+          sum++;
       }
     }
-    sum -= arr[x][y];
+    if (arr[x][y] == 1) {
+      sum--;
+    }
     return sum;
 
   }
@@ -100,8 +107,8 @@ public class Cellular2D {
     return this.iterations;
   }
 
-  public int[] aliveRule(){
-    
+  public int[] aliveRule() {
+
     String[] alive = rule.split("/");
 
     int[] intArray = new int[alive[0].length()];
@@ -124,6 +131,15 @@ public class Cellular2D {
     }
 
     return intArray;
+  }
+
+  public int stateRule() {
+
+    String[] alive = rule.split("/");
+
+    int states = Integer.parseInt(alive[2]);
+
+    return states;
   }
 
 }
